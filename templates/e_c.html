@@ -1,0 +1,8 @@
+{% autoescape off %}
+welcome to Media-{% csrf_token %}
+hello {{name}}!!
+
+please confirm your email by clicking below link:
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}

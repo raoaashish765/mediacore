@@ -1,0 +1,228 @@
+{% extends 'home/base.html' %}
+{% block title %}Accounts{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+
+    <h1>hello {{fname}} </h1>
+    <hr>
+    <h1><i class="fa-solid">Interests/Privacy</i></h1>
+    <label for="">Please Select Your Interests: </label>
+    <button id="button1" onclick='but1()' value='@Travel' class="btn btn-primary" data-bs-toggle="button">Travel</button>
+    <button id="button2" onclick='but2()' value='@Crypto' class="btn btn-primary" data-bs-toggle="button">Crypto</button>
+    <button id="button3" onclick='but3()' value='@Automotive' class="btn btn-primary" data-bs-toggle="button">Automotive</button>
+    <button id="button4" onclick='but4()' value='@Beauty' class="btn btn-primary" data-bs-toggle="button">Beauty</button>
+    <button id="button5" onclick='but5()' value='@Books and literature' class="btn btn-primary" data-bs-toggle="button">Books and literature</button>
+    <button id="button6" onclick='but6()' value='@Business' class="btn btn-primary" data-bs-toggle="button">Business</button>
+    <button id="button7" onclick='but7()' value='@Careers' class="btn btn-primary" data-bs-toggle="button">Careers</button>
+    <button id="button8" onclick='but8()' value='@Education' class="btn btn-primary" data-bs-toggle="button">Education</button>
+    <button id="button9" onclick='but9()' value='@Events' class="btn btn-primary" data-bs-toggle="button">Events</button>
+    <button id="button10" onclick='but10()' value='@Food and drink' class="btn btn-primary" data-bs-toggle="button">Food and drink</button>
+    <button id="button11" onclick='but11()' value='@Gaming' class="btn btn-primary" data-bs-toggle="button">Gaming</button>
+    <button id="button12" onclick='but12()' value='@Health' class="btn btn-primary" data-bs-toggle="button">Health</button>
+    <button id="button13" onclick='but13()' value='@politics' class="btn btn-primary" data-bs-toggle="button">politics</button>
+    <button id="button14" onclick='but14()' value='@Movies' class="btn btn-primary" data-bs-toggle="button">Movies</button>
+    <button id="button15" onclick='but15()' value='@Music' class="btn btn-primary" data-bs-toggle="button">Music</button>
+    <button id="button16" onclick='but16()' value='@Science' class="btn btn-primary" data-bs-toggle="button">Science</button>
+          <br>
+    <form action="/usersettings" method="post">
+      {% csrf_token %}
+    <label for="interest">
+      interests selected by you: 
+    </label>
+    <textarea type="text" id="interest" name="interest" value="" rows="4" cols="50" readonly></textarea>
+          <br>
+          <label for="">
+            Check Box To Make Your Account Public: 
+          </label>
+          <input type="checkbox" value='True' name="pri">
+        </br>
+        <hr>
+        <label for=""><i class="fa-solid">Password</i></label>
+        <input type="Password" id="pass1" name="pass1" placeholder="Enter The password" Required>
+        <br>
+        <br>
+          <button type="submit" id="button" class="btn btn-warning"><i class="fa-solid fa-arrow-right">Change Settings</i></button>
+      </form>
+      <hr>
+    <script type="text/javascript">
+      function but1(){
+        str = interest.value;
+        if(button1.value == ''){
+          removeFirst = str.replaceAll('@Travel', '');
+          interest.value = removeFirst;
+          button1.value = '@Travel';
+        }else{
+          interest.value += '@Travel';
+          button1.value = '';
+        }
+      }
+      function but2(){
+        str = interest.value;
+        if(button2.value == ''){
+          removeFirst = str.replaceAll('@Crypto', '');
+          interest.value = removeFirst;
+          button2.value = '@Crypto';
+        }else{
+          interest.value += '@Crypto';
+          button2.value = '';
+        }
+      }
+      function but3(){
+        str = interest.value;
+        if(button3.value == ''){
+          removeFirst = str.replaceAll('@Automotive', '');
+          interest.value = removeFirst;
+          button3.value = '@Automotive';
+        }else{
+          interest.value += '@Automotive';
+          button3.value = '';
+        }
+      }
+      function but4(){
+        str = interest.value;
+        if(button4.value == ''){
+          removeFirst = str.replaceAll('@Beauty', '');
+          interest.value = removeFirst;
+          button4.value = '@Beauty';
+        }else{
+          interest.value += '@Beauty';
+          button4.value = '';
+        }
+      }
+      function but5(){
+        str = interest.value;
+        if(button5.value == ''){
+          removeFirst = str.replaceAll('@Books', '');
+          interest.value = removeFirst;
+          button5.value = '@Books';
+        }else{
+          interest.value += '@Books';
+          button5.value = '';
+        }
+      }
+      function but6(){
+        str = interest.value;
+        if(button6.value == ''){
+          removeFirst = str.replaceAll('@Business', '');
+          interest.value = removeFirst;
+          button6.value = '@Business';
+        }else{
+          interest.value += '@Business';
+          button6.value = '';
+        }
+      }
+      function but7(){
+        str = interest.value;
+        if(button7.value == ''){
+          removeFirst = str.replaceAll('@Careers', '');
+          interest.value = removeFirst;
+          button7.value = '@Careers';
+        }else{
+          interest.value += '@Careers';
+          button7.value = '';
+        }
+      }
+      function but8(){
+        str = interest.value;
+        if(button8.value == ''){
+          removeFirst = str.replaceAll('@Education', '');
+          interest.value = removeFirst;
+          button8.value = '@Education';
+        }else{
+          interest.value += '@Education';
+          button8.value = '';
+        }
+      }
+      function but9(){
+        str = interest.value;
+        if(button9.value == ''){
+          removeFirst = str.replaceAll('@Events', '');
+          interest.value = removeFirst;
+          button9.value = '@Events';
+        }else{
+          interest.value += '@Events';
+          button9.value = '';
+        }
+      }
+      function but10(){
+        str = interest.value;
+        if(button10.value == ''){
+          removeFirst = str.replaceAll('@Food', '');
+          interest.value = removeFirst;
+          button10.value = '@Food';
+        }else{
+          interest.value += '@Food';
+          button10.value = '';
+        }
+      }
+      function but11(){
+        str = interest.value;
+        if(button11.value == ''){
+          removeFirst = str.replaceAll('@Gaming', '');
+          interest.value = removeFirst;
+          button11.value = '@Gaming';
+        }else{
+          interest.value += '@Gaming';
+          button11.value = '';
+        }
+      }
+      function but12(){
+        str = interest.value;
+        if(button12.value == ''){
+          removeFirst = str.replaceAll('@Health', '');
+          interest.value = removeFirst;
+          button12.value = '@Health';
+        }else{
+          interest.value += '@Health';
+          button12.value = '';
+        }
+      }
+      function but13(){
+        str = interest.value;
+        if(button13.value == ''){
+          removeFirst = str.replaceAll('@politics', '');
+          interest.value = removeFirst;
+          button13.value = '@politics';
+        }else{
+          interest.value += '@politics';
+          button13.value = '';
+        }
+      }
+      function but14(){
+        str = interest.value;
+        if(button14.value == ''){
+          removeFirst = str.replaceAll('@Movies', '');
+          interest.value = removeFirst;
+          button14.value = '@Movies';
+        }else{
+          interest.value += '@Movies';
+          button14.value = '';
+        }
+      }
+      function but15(){
+        str = interest.value;
+        if(button15.value == ''){
+          removeFirst = str.replaceAll('@Music', '');
+          interest.value = removeFirst;
+          button15.value = '@Music';
+        }else{
+          interest.value += '@Music';
+          button15.value = '';
+        }
+      }
+      function but16(){
+        str = interest.value;
+        if(button16.value == ''){
+          removeFirst = str.replaceAll('@Science', '');
+          interest.value = removeFirst;
+          button16.value = '@Science';
+        }else{
+          interest.value += '@Science';
+          button16.value = '';
+        }
+      }
+      </script>
+    </div>
+  </div>
+  </div>
+      {% endblock content %}

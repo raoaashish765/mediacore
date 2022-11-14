@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+{% block title %}Accounts{% endblock title %}
+{% block content %}
+<div class="border rounded-3 justify-content-center" style="text-align: center;">
+    <h1 style="background-color: #24a0ed ;">Video(s):</h1>
+    {% for i in vid %}
+      <div class="card mx-auto" style="width: 26rem;background-color: #ABBAEA;">
+   Video By : {{i.chname}}
+    <button style="height:200px; width:400px; background-color:black; text-align:center;" onclick="location.href='{% url 'video' i.vid %}';">
+      <video src="{{i.video.url}}" height="185px" width="355px"></video>
+    </button>
+    <br>
+    <i class="fa-solid">{{i.titlle}}</i>
+    
+    {{i.time}}
+  </div>
+  <hr>
+    {% endfor %}
+</div>
+</div>
+</div>
+    {% endblock content %}

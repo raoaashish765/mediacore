@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+{% block title %}Accounts{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+  <h1 style="background-color: #24a0ed ;">Upload New Video:</h1>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for=""><i class="fa-solid">  Video--Title</i></label>
+        <input type="text" id="vidtitle" name="vidtitle" placeholder="Enter a Title For Video" Required>
+        <div>
+        <div class="form-group">
+        <label for=""><i class="fa-solid">  Video--Description</i></label>
+        <textarea type="text" id="viddes" name="viddes" placeholder="Explain Something About Video here.." rows="4" cols="50" Required></textarea>
+        <div>
+          <hr>
+          <div class="form-group">
+            <label for=""><i class="fa-solid">  Video--file</i></label>
+          <input type="file" name="vidfile" id="vidfile" accept="video/*" Required>
+          <div>
+            <hr>
+        <button type="submit"  class="btn btn-success"><i class="fa-solid fa-arrow-up">  start-upload</i></button>
+    </form>
+    <h1 style="background-color: #24a0ed ;">Your Video(s) Performance:</h1>
+    {% for i in vid %}
+    <div class="bg-light border rounded-1 justify-content-center" style="text-align: center;">
+    <button style="height:100px; width:200px; background-color:black; text-align:center;" onclick="location.href='{% url 'video' i.vid %}';">
+      <video src="{{i.video.url}}" height="95px" width="195px"></video>
+    </button>
+    <i class="fa-solid">title:</i>{{i.titlle}}
+    <br>
+      <i class="fa-solid">description:</i>{{i.details}}
+        <i class="fa-solid fa-arrow-up">upload time:{{i.time}}</i>
+        <br>
+        <button class="btn btn-primary" type="button" onclick="location.href='{% url 'video' i.vid %}';">edit/delete</button>
+  </div>
+    {% endfor %}
+</div>
+</div>
+</div>
+    {% endblock content %}

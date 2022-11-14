@@ -1,0 +1,126 @@
+{% extends 'home/base.html' %}
+{% block title %}Accounts{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+  <h1 style="background-color: #24a0ed ;">@{{name}}</h1>
+<nav class="navbar bg-light">
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h2><a href="{% url 'user' name %}/followers" class="btn btn-outline-success">followers  <i class="fa-solid fa-arrow-right">{{ers}}</i></a></h2>
+    <h2><a href="{% url 'user' name %}/following" class="btn btn-outline-success">following  <i class="fa-solid fa-arrow-right">{{ing}}</i></a></h2>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </nav>
+  {% if show %}
+    <form action='/followview' method='post'>
+      {% csrf_token %}
+      <input name='user' id='ussr' value='{{name}}' style="display:none;" readonly>
+    <button type='submit'value='{{btn}}' name='now' class="btn btn-success">{{btn}}</button>
+    </form>
+    <br>
+    {% else %}
+    {% endif %}
+    
+
+<hr>
+<h2><i class="fa-solid">Posts by @{{name}} </i></h2>
+<hr>
+
+{% for z in posts %}
+    <div class="container-fluid" style="background-color: #ABBAEA;">
+{% if z.image %}
+<a href="{% url 'user' z.user %}"><i class="fa-brands">@{{z.user}}</i></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fa-brands">On Topic:</i><em>{{z.topic}}</em>
+<div class="card" style="text-align: center;">
+  <div class="card-body">
+    <div>
+    <h2 class="card-title">{{z.text}}</h2>
+    <img src="{{z.image.url}}" class="card-img-bottom" width="300px", height="300px">
+    <p class="card-text"><small class="text-muted">Last updated @ {{z.timeadded}}</small></p>
+    </div>
+  </div>
+</div>
+{% else %}
+<a href="{% url 'user' z.user %}"><i class="fa-brands">@{{z.user}}</i></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fa-brands">On Topic:</i><em>{{z.topic}}</em>
+<div class="card" style="text-align: center;">
+  <div class="card-body">
+    <div>
+    <h2 class="card-title">{{z.text}}</h2>
+    <p class="card-text"><small class="text-muted">Last updated @ {{z.timeadded}}</small></p>
+    </div>
+  </div>
+</div>
+{% endif %}
+<i class="fa-brands">Likes : {{z.likes}}</i>
+<nav class="navbar bg-light">
+  <div class="container-fluid justify-content-start">
+{% if z.liked %}
+<br>
+<form action="" method="post">
+  <button type="button" class="form-check-input" id="post{{z.post_id}}" role="switch" value="{{z.post_id}}" name="like" style="width: 80px; height: 40px; background-color: #24a0ed ;" checked>Unlike<i class="fa-regular fa-thumbs-up"></i></button>
+</form>
+<script>
+  $("#post{{z.post_id}}").click(function () {
+    let dt=$("#post{{z.post_id}}").val();
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata={post_id:dt, csrfmiddlewaretoken:csr};
+    $.ajax({
+      url: "{% url 'likepst' z.post_id %}",
+      method: "POST",
+      data: mydata,
+      success: function(data){
+        console.log("unliked!!");
+      },
+    });
+  });
+</script>
+{% else %}
+  <br>
+  <form action="" method="post">
+    <button type="button" class="form-check-input" id="post{{z.post_id}}" role="switch" value="{{z.post_id}}" name="like" style="width: 80px; height: 40px;">Like<i class="fa-regular fa-thumbs-up" id="txtunlike"></i></button>
+  </form>
+  <script>
+    $("#post{{z.post_id}}").click(function () {
+      let dt=$("#post{{z.post_id}}").val();
+      let csr = $("input[name=csrfmiddlewaretoken").val();
+      mydata={post_id:dt, csrfmiddlewaretoken:csr};
+      $.ajax({
+        url: "{% url 'likepst' z.post_id %}",
+        method: "POST",
+        data: mydata,
+        success: function(data){
+          console.log("liked!!");
+        },
+      });
+    });
+  </script>
+  {% endif %}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" class="btn btn-info" id="combt{{z.post_id}}"><a href="{% url 'postview' z.post_id %}" style="color:#000000"><i class="fa-solid fa-comment">Add Comment</i></a></button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" class="btn btn-info" id="shr{{z.post_id}}"><a href="{% url 'postview' z.post_id %}" style="color:#000000"><i class="fa-solid fa-share">Share</i></a></button>
+</div>
+  </nav>
+  <div class="container justify-content-start bg-light" style="text-align: left;">
+  {% for c in z.comments %}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <i class="fa-regular">|</i><i class="fa-regular fa-comment">--</i>
+  <a href="{% url 'user' c.user %}"><i class="fa-solid">@{{c.user}}</i><i class="fa-solid fa-arrow-right"></i></a>
+{{c.comment}}
+  <br>
+  {% endfor %}
+</div>
+  <hr>
+</div>
+  {% endfor %}
+</div>
+</div>
+</div>
+    {% endblock content %}

@@ -1,0 +1,92 @@
+{% extends 'home/base.html' %}
+{% block title %}{{data.titlle}}{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center">
+  <button class="btn btn-primary" onclick='edit{{i.vid}}()' type="button">edit/delete</button>
+  <div id="editor{{i.vid}}" style="display:none">
+    <h1>Edit Video Here::</h1>
+    <form action="/channel/videdt" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa-sharp fa-solid">Enter New Description::</i></span>
+            </div>
+            <textarea class="form-control" aria-label="With textarea" type="text" id="text" name="vtext" rows="4" cols="50" value="{{data.details}}">{{data.details}}</textarea>
+            <br>
+            <label for=""><i class="fa-sharp fa-solid">Enter New Title : </i></label>
+            <input name="vtopic" value="{{data.titlle}}">
+            </input>
+            <input name="vidid" value="{{data.vid}}" style="display:none;" readonly>
+            </input>
+            <br>
+            <button type="submit" class="btn btn-warning"><i class="fa-sharp fa-solid fa-pen-to-square">    edit</i></button>
+          </div>
+         </form>
+        <br>
+        <form action="/channel/viddelete" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            <input name="dltid" value="{{data.vid}}" style="display:none;" readonly>
+            <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash">   Delete</i></button>
+        </div>
+    </form>
+  </div>
+  <script>
+   function edit{{i.vid}}(){
+     editor{{i.vid}}.style.display='block';
+   }
+  </script>
+      <div class="card mx-auto" style="width: 56rem;background-color: #ABBAEA;">
+    <video src="{{data.video.url}}" height="445px" width="895px" controls>
+    </video>
+    <br>
+    <i class="fa-solid">{{data.titlle}}</i>&nbsp;
+    <i class="fa-solid fa-eye">->  {{data.views}}</i>&nbsp;
+    <i class="fa-solid fa-thumbs-up">->  {{data.likes}}</i>
+    <br>
+    <nav class="navbar bg-light">
+      <form action="/channel/vidlk" method="post">
+        {% csrf_token %}
+        <button type="submit" value="{{data.vid}}" class="btn btn-primary" name="like"><i class="fa-regular fa-thumbs-up">
+          {% if data.liked %}
+          unlike
+          {% else %}
+          like
+          {% endif %}
+        </i></button>
+      </form>
+      <div class="flex-shrink-0 dropdown">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="width:350px;">
+          <i class="fa-sharp fa-solid">Description</i>
+        </a>
+        <ul class="dropdown-menu text-small shadow" style="width:650px;">
+         <textbox style="width:650px;" readonly>
+        {{data.details}}</textbox>
+      </ul>
+      </div>
+      <form action="/channel/vidcmt" method="post">
+        {% csrf_token %}
+        <input name="cmnt" placeholder="Enter Comment" Required>
+        <button type="submit" value="{{data.vid}}" class="btn btn-primary" name="cmntid"><i class="fa-regular fa-comment">Comment</i></button>
+      </form>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </nav>
+    
+    {{data.time}}
+    <div class="container justify-content-start bg-light" style="text-align: left;">
+      {% for c in data.comments %}
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <i class="fa-regular">|</i><i class="fa-regular fa-comment">--</i>
+      <a href="{% url 'user' c.user %}"><i class="fa-solid">@{{c.user}}</i><i class="fa-solid fa-arrow-right"></i></a>
+    {{c.comment}}
+      <br>
+      {% endfor %}
+    </div>
+  </div>
+  <hr>
+</div>
+</div>
+</div>
+{% endblock content %}

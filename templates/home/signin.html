@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+{% block title %}Sign-In{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+{% else %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+    <h1><i class="fa-sharp fa-solid">Login your account</i></h1>
+    <br>
+    <hr>
+    <form action="/signin" method="post">
+    {% csrf_token %}
+        <div class="form-group">
+        <label for=""><i class="fa-sharp fa-solid">Username</i></label>
+        <input type="text" id="username" name="username" placeholder="Enter your Username" Required>
+        <div>
+            <div class="form-group">
+        <label for=""><i class="fa-sharp fa-solid">Password</i></label>
+        <input type="Password" id="pass1" name="pass1" placeholder="Enter your password" Required>
+        <div>
+
+        <button type="submit" class="btn btn-success"><i class="fa-sharp fa-solid fa-right-to-bracket">   sign-in</i></button>
+    </form>
+    {% endif %}
+</div>
+</div>
+</div>
+    {% endblock content %}

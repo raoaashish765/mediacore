@@ -1,0 +1,153 @@
+{% extends 'home/base.html' %}
+{% block title %}following @{{user}}{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+{% if edit %}
+<h1>Edit Post Here::</h1>
+<form action="" method="post" enctype="multipart/form-data"  value="edtform">
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fa-sharp fa-solid">Enter New Text For Your Post::</i></span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" type="text" id="text" name="text" rows="4" cols="50" value="{{data.text}}">{{data.text}}</textarea>
+        <br>
+        <label for=""><i class="fa-sharp fa-solid">Select Topic For Your Post : </i></label>
+        <select id="topic" name="topic" value="{{data.topic}}">{{data.text}}
+          <option value="crypto">crypto</option>
+          <option value="trade">trade</option>
+          <option value="crypto">crypto</option>
+          <option value="crypto">crypto</option>
+          <option value="crypto">crypto</option>
+        </select>
+        <br>
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fa-sharp fa-solid">New image : </i></span>
+        </div>
+        <div class="custom-file">
+        <input type="file" name="image" id="imageFile" value="{{data.image}}" accept="image/*">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-warning"><i class="fa-sharp fa-solid fa-pen-to-square">    edit</i></button>
+      </div>
+     </form>
+    <br>
+    <form action="/postdelete" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+        <input name="poid" value="{{data.post_id}}" style="display:none;" readonly>
+        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash">   Delete</i></button>
+    </div>
+</form>
+<h1>Your Post::</h1>
+{% endif %}
+<br>
+<div class="container-fluid" style="background-color: #ABBAEA;">
+{% if data.image %}
+<a href="{% url 'user' data.user %}"><i class="fa-brands">@{{data.user}}</i></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fa-brands">On Topic:</i><em>{{data.topic}}</em>
+<div class="card" style="text-align: center;">
+<div class="card-body">
+<div>
+<h2 class="card-title">{{data.text}}</h2>
+<img src="{{data.image.url}}" class="card-img-bottom" width="300px", height="300px">
+<p class="card-text"><small class="text-muted">Last updated @ {{data.timeadded}}</small></p>
+</div>
+</div>
+</div>
+{% else %}
+<a href="{% url 'user' data.user %}"><i class="fa-brands">@{{data.user}}</i></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fa-brands">On Topic:</i><em>{{data.topic}}</em>
+<div class="card" style="text-align: center;">
+<div class="card-body">
+<div>
+<h2 class="card-title">{{data.text}}</h2>
+<p class="card-text"><small class="text-muted">Last updated @ {{data.timeadded}}</small></p>
+</div>
+</div>
+</div>
+{% endif %}
+<i class="fa-brands">Likes : {{data.likes}}</i>
+<nav class="navbar bg-light">
+<div class="container-fluid justify-content-start">
+{% if data.liked %}
+<br>
+<form action="" method="post">
+<button type="button" class="form-check-input" id="post{{data.post_id}}" role="switch" value="{{data.post_id}}" name="like" style="width: 80px; height: 40px; background-color: #24a0ed ;" checked>Unlike<i class="fa-regular fa-thumbs-up"></i></button>
+</form>
+<script>
+$("#post{{data.post_id}}").click(function () {
+let dt=$("#post{{data.post_id}}").val();
+let csr = $("input[name=csrfmiddlewaretoken").val();
+mydata={post_id:dt, csrfmiddlewaretoken:csr};
+$.ajax({
+  url: "{% url 'likepst' data.post_id %}",
+  method: "POST",
+  data: mydata,
+  success: function(data){
+    console.log("unliked!!");
+  },
+});
+});
+</script>
+{% else %}
+<br>
+<form action="" method="post">
+<button type="button" class="form-check-input" id="post{{data.post_id}}" role="switch" value="{{data.post_id}}" name="like" style="width: 80px; height: 40px;">Like<i class="fa-regular fa-thumbs-up" id="txtunlike"></i></button>
+</form>
+<script>
+$("#post{{data.post_id}}").click(function () {
+  let dt=$("#post{{data.post_id}}").val();
+  let csr = $("input[name=csrfmiddlewaretoken").val();
+  mydata={post_id:dt, csrfmiddlewaretoken:csr};
+  $.ajax({
+    url: "{% url 'likepst' data.post_id %}",
+    method: "POST",
+    data: mydata,
+    success: function(data){
+      console.log("liked!!");
+    },
+  });
+});
+</script>
+{% endif %}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="submit" class="btn btn-info" id="combt{{data.post_id}}"><a href="{% url 'postview' data.post_id %}" style="color:#000000"><i class="fa-solid fa-comment">Add Comment</i></a></button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="submit" class="btn btn-info" id="shr{{data.post_id}}"><a href="{% url 'postview' data.post_id %}" style="color:#000000"><i class="fa-solid fa-share">Share</i></a></button>
+</div>
+</nav>
+<form action="/cmntpst" method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <input name="cmtid" value="{{data.post_id}}" style="display:none;" readonly>
+    <label for=""><i class="fa-sharp fa-solid">Enter Your Comment Below:</i></label>
+    <input type="text" class="form-control" id="cmnt" aria-describedby="emailHelp" name="cmnttext">
+  </div>
+  <button class="btn btn-primary" id="cmnttt{{data.post_id}}"><i class="fa-sharp fa-solid fa-comments">   Comment</i></button>
+</form>
+
+
+
+<div class="container justify-content-start bg-light"  style="text-align: left;">
+{% for c in data.comments %}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fa-regular">|</i><i class="fa-regular fa-comment">--</i>
+<a href="{% url 'user' c.user %}"><i class="fa-solid">@{{c.user}}</i><i class="fa-solid fa-arrow-right"></i></a>
+{{c.comment}}
+<br>
+{% endfor %}
+</div>
+<hr>
+</div>
+
+</div>
+</div>
+</div>
+{% endblock content %}

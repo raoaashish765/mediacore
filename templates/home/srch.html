@@ -1,0 +1,15 @@
+{% extends 'home/base.html' %}
+{% block title %}Accounts{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+
+{% for i in sers %}
+
+<h1><a href="{% url 'user' i.username %}">{{i.username}}</a></h1>
+
+{% endfor %}
+    
+</div>
+</div>
+</div>
+    {% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% block title %}following @{{user}}{% endblock title %}
+{% block content %}
+<div class="bg-light border rounded-3 justify-content-center" style="text-align: center;">
+    <h1><i class="fa-solid">new-post</i></h1>
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="">Enter Title Or Name : </label>
+                <input type="text" id="text" name="rt" rows="4" cols="50" Required></input>
+                <br>
+                <label for="">Explain Bug : </label>
+                <textarea type="text" id="text" name="re" rows="4" cols="50" Required></textarea>
+                <br>
+                <label for="" class="btn btn-primary"><i class="fa-solid fa-plus" onclick='showfile()'>add screenshot</i></label>
+                <input type="file" name="rm" id="repo" accept="image/*" style="display: none;">
+                <br>
+                <hr>
+                <button type="submit" class="btn btn-success"><h2>send report</h2></button>
+            </form>
+            <script>
+                function showfile(){
+                    repo.style.display="block";
+                }
+              </script>
+        </div>
+    </div>
+    </div>
+    {% endblock content %}

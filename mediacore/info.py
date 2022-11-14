@@ -1,0 +1,5 @@
+EMAIL_USE_TLS= True
+EMAIL_HOST='smtp.outlook.com'
+EMAIL_HOST_USER='iv2rumin105@outlook.com'
+EMAIL_HOST_PASSWORD='A1a2@3a4'
+EMAIL_PORT= 587
